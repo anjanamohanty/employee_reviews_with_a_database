@@ -51,14 +51,7 @@ class EmployeeReviews < Minitest::Test
     assert a.add_employee(new_employee)
     assert a.add_employee(old_employee)
 
-    employees = Employee.where(department: a)
-
-    sum = 0
-    employees.each do |x|
-      sum += x.salary
-    end
-
-    assert_equal 90000.00, sum
+    assert_equal 90000.00, a.department_salary
   end
 
   def test_add_employee_review

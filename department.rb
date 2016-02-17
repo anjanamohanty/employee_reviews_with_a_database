@@ -10,7 +10,8 @@ class Department < ActiveRecord::Base
   end
 
   def department_salary
-    @staff.reduce(0.0) {|sum, e| sum + e.salary}
+    employees = Employee.where(department: self)
+    employees.reduce(0.0) {|sum, e| sum + e.salary}
   end
 
   def department_raise(alloted_amount)
