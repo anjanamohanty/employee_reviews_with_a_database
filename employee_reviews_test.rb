@@ -29,7 +29,7 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_can_get_employee_name
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert_equal "Dan", new_employee.name
   end
 
@@ -44,12 +44,21 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_total_department_salary
-    a = Department.new("Marketing")
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+    a = Department.create(name: "Marketing")
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+
     assert a.add_employee(new_employee)
     assert a.add_employee(old_employee)
-    assert_equal 90000.00, a.department_salary
+
+    employees = Employee.where(department: a)
+
+    sum = 0
+    employees.each do |x|
+      sum += x.salary
+    end
+
+    assert_equal 90000.00, sum
   end
 
   def test_add_employee_review

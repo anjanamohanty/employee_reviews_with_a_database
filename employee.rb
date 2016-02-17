@@ -1,6 +1,8 @@
 require './database_configuration.rb'
 
 class Employee < ActiveRecord::Base
+  belongs_to :department
+  
   def add_employee_review(review)
     @review = review
     positive_matches = 0

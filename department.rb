@@ -2,8 +2,11 @@ require './employee'
 require 'active_record'
 
 class Department < ActiveRecord::Base
+  has_many :employees
+
   def add_employee(new_employee)
-    new_employee.department_id = self.id
+    new_employee.department = self
+    new_employee.save
   end
 
   def department_salary
