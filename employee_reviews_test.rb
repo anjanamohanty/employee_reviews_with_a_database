@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './department'
+require './database_configuration.rb'
 
 class EmployeeReviews < Minitest::Test
 
@@ -10,21 +11,21 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_can_create_new_department
-    a = Department.new("Marketing")
+    a = Department.create(name: "Marketing")
     assert a
     assert_equal "Marketing", a.name
   end
 
   def test_can_create_new_employee
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     assert new_employee
   end
 
   def test_can_add_employee_to_a_department
-    a = Department.new("Marketing")
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    a = Department.create(name: "Marketing")
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     a.add_employee(new_employee)
-    assert_equal [new_employee], a.staff
+    assert_equal new_employee.department_id, a.id
   end
 
   def test_can_get_employee_name
@@ -38,7 +39,7 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_can_get_a_department_name
-    a = Department.new("Marketing")
+    a = Department.create(name: "Marketing")
     assert_equal "Marketing", a.name
   end
 

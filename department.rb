@@ -1,15 +1,9 @@
 require './employee'
+require 'active_record'
 
-class Department
-  attr_reader :name, :staff
-
-  def initialize(department_name)
-    @name = department_name
-    @staff = []
-  end
-
+class Department < ActiveRecord::Base
   def add_employee(new_employee)
-    @staff << new_employee
+    new_employee.department_id = self.id
   end
 
   def department_salary
