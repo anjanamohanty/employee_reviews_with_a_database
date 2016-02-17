@@ -55,13 +55,13 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_add_employee_review
-    xavier = Employee.new(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     assert xavier.add_employee_review(positive_review_one)
   end
 
   def test_set_employee_performance
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 4000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 4000.00)
     new_employee.set_employee_performance(true)
     old_employee.set_employee_performance(false)
     assert new_employee.satisfactory
@@ -69,13 +69,15 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_give_raise_by_percent
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    assert_equal 54000, new_employee.raise_by_percent(0.08)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee.raise_by_percent(0.08)
+    assert_equal 54000, new_employee.salary
   end
 
   def test_give_raise_by_amount
     new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    assert_equal 60000, new_employee.raise_by_amount(10000)
+    new_employee.raise_by_amount(10000)
+    assert_equal 60000, new_employee.salary
   end
 
   def test_department_raises_based_on_criteria
