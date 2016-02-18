@@ -4,7 +4,7 @@ class EmployeeAndDepartmentMigration < ActiveRecord::Migration
   def change
     create_table :departments do |t|
       t.string :name
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :employees do |t|
@@ -15,7 +15,7 @@ class EmployeeAndDepartmentMigration < ActiveRecord::Migration
       t.decimal :salary
       t.text :review
       t.boolean :satisfactory
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

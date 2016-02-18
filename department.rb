@@ -38,18 +38,18 @@ class Department < ActiveRecord::Base
   def employees_paid_above_average
     average = (employees.reduce(0.0) {|sum, i| sum + i.salary}) / employees.count
     array = []
-    employees.each do |e|
-      array << e if (e.salary > average)
-    end
+    employees.each {|e| array << e if (e.salary > average)}
     array
   end
 
   def employees_with_palindrome_names
     array = []
-    employees.each do |e|
-      array << e if (e.name.downcase == e.name.downcase.reverse)
-    end
+    employees.each {|e| array << e if (e.name.downcase == e.name.downcase.reverse)}
     array
   end
-  
+
+  def self.department_with_most_employees
+    relation = Department.joins(:employees).group("departments.id").count
+    Department.find(relation.key(relation.values.max))
+  end
 end
