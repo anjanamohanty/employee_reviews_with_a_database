@@ -4,7 +4,7 @@ This code allows you to create a department and add employees to it (with a name
 
 ## Feature updates 2016-02-17
 
-- Use ```Gemfile``` and ```employee_and_department_migration.rb``` to create database tables for your application or testing environments
+- Use ```Gemfile``` and ```employee_and_department_migration.rb``` to create database tables for your application or testing environments (see [ERD.png](ERD.png) for schema)
 - NEW methods now available:
 ```ruby
 a = Department.create(name: "Marketing")
