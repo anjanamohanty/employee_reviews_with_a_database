@@ -1,30 +1,52 @@
 # Employee Reviews
 
-## Description
+This code allows you to create a department and add employees to it (with a name, email address, phone number and salary). You can then use it to give an employee a review, give them a raise and give raises across an entire department.
 
-Allows the user to keep track of a department's staff, and the details of each employee within a department.
+## Running the tests
 
-## Features
+If you wish to run the tests for this project, also include ```employee_reviews_test.rb``` in your project directory, and:
 
-* Create new departments, each with their own empty "staff" array:
+```bash
+ruby employee_reviews_test.rb
 ```
-marketing = Department.new("Marketing")
-```
-* Create new employees:
-```
-new_employee = Employee.new(name, phone, email, salary )
-```
-* Add employees to a department:
-```
-marketing.add_employee(employee)
-```
-* Add text reviews to each employee using:
-```
-new_employee.add_employee_review(review)
-```
-* Give raises to an entire department.
-* Give raises to specific employees in a department based upon criteria of the user's choosing.
-* Scan employee review text and evaluate an employee's performance.
-* Access an employees performance rating rating at any time.
 
-Project was estimated to take 25 hours of work, but was completed in 16 hours.
+## Creating employees and departments
+
+Create a new department:
+```ruby
+computer_science = Department.new("Computer Science")
+```
+
+Create new employees:
+```ruby
+bob = Employee.new("Bob", "bob@email.com", "919-555-5555", 100000)
+carl = Employee.new("Carl", "carl@email.com", "919-777-7777", 60000)
+```
+
+Add employees to a department:
+```ruby
+computer_science.employees << bob
+computer_science.employees << carl
+```
+
+## Submitting reviews for employees
+> Once a review is given for an employee their rating is automatically set as satisfactory or unsatisfactory, based on the review that was given.
+
+```ruby
+review_text = "Aliqua fap tousled distillery, scenester reprehenderit poutine
+brunch mustache vinyl williamsburg listicle yr post-ironic put a bird on it.
+Hoodie kombucha waistcoat, nesciunt franzen esse velit pitchfork cronut.
+Wolf salvia gluten-free nisi, assumenda ramps four loko butcher raw denim narwhal
+ennui veniam pabst. Adipisicing helvetica reprehenderit, nulla tattooed keytar."
+
+bob.add_employee_review(review_text)
+```
+
+## Give raises based on current salary and satisfactory standing
+```ruby
+raise_amount = 5000
+
+d.department_raise(raise_amount) {|e| e.satisfactory == true && e.salary < 60000.00}
+
+# Gives a $5,000 raise to all employees in the department who make less that $60,000 and have a satisfactory rating based on their performance review.
+```
