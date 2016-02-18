@@ -43,7 +43,8 @@ class EmployeeReviews < Minitest::Test
   def test_can_add_employee_to_a_department
     a = Department.create(name: "Marketing")
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    a.add_employee(new_employee)
+    a.employees << new_employee
+
     assert_equal new_employee.department_id, a.id
   end
 
@@ -67,8 +68,8 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    assert a.add_employee(new_employee)
-    assert a.add_employee(old_employee)
+    a.employees << new_employee
+    a.employees << old_employee
 
     assert_equal 90000.00, a.department_salary
   end
@@ -105,9 +106,9 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
 
     xavier.set_employee_performance(true)
     new_employee.set_employee_performance(true)
@@ -137,9 +138,9 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
 
     assert_equal 3, a.number_of_employees
   end
@@ -151,9 +152,9 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
 
     assert_equal old_employee, a.lowest_paid_employee
   end
@@ -165,9 +166,9 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
 
     assert_equal [new_employee, xavier, old_employee], a.get_employees_in_abc_order
   end
@@ -179,9 +180,9 @@ class EmployeeReviews < Minitest::Test
     new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
 
     assert_equal [xavier], a.employees_paid_above_average
   end
@@ -194,10 +195,10 @@ class EmployeeReviews < Minitest::Test
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
     palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
-    a.add_employee(palindrome)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
+    a.employees << palindrome
 
     assert_equal [palindrome], a.employees_with_palindrome_names
   end
@@ -210,17 +211,17 @@ class EmployeeReviews < Minitest::Test
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
     palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
-    a.add_employee(palindrome)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
+    a.employees << palindrome
 
     b = Department.create(name: "Marketing")
     emp_one = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     emp_two = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
 
-    b.add_employee(emp_one)
-    b.add_employee(emp_two)
+    b.employees << emp_one
+    b.employees << emp_two
 
     assert_equal a, Department.department_with_most_employees
   end
