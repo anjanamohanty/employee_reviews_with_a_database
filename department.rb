@@ -5,11 +5,6 @@ require 'byebug'
 class Department < ActiveRecord::Base
   has_many :employees
 
-  def add_employee(new_employee)
-    new_employee.department = self
-    new_employee.save
-  end
-
   def department_salary
     employees.reduce(0.0) {|sum, e| sum + e.salary}
   end
