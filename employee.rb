@@ -1,4 +1,4 @@
-require './database_configuration.rb'
+require 'active_record'
 
 class Employee < ActiveRecord::Base
   belongs_to :department
@@ -27,6 +27,7 @@ class Employee < ActiveRecord::Base
       negative_matches += matches
     end
     self.satisfactory = (positive_matches > negative_matches)
+    self.save
   end
 
   def set_employee_performance(boolean)

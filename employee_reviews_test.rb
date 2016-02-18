@@ -1,7 +1,16 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './department'
-require './database_configuration.rb'
+require './employee_and_department_migration.rb'
+require 'byebug'
+
+require 'active_record'
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'test.sqlite3'
+)
+
+# EmployeeAndDepartmentMigration.migrate(:up)
 
 class EmployeeReviews < Minitest::Test
 
@@ -75,25 +84,31 @@ class EmployeeReviews < Minitest::Test
   end
 
   def test_give_raise_by_amount
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
     new_employee.raise_by_amount(10000)
     assert_equal 60000, new_employee.salary
   end
 
   def test_department_raises_based_on_criteria
-    a = Department.new("Marketing")
-    xavier = Employee.new(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
-    new_employee = Employee.new(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
-    old_employee = Employee.new(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+    a = Department.create(name: "Marketing")
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+
     a.add_employee(xavier)
     a.add_employee(new_employee)
     a.add_employee(old_employee)
+
     xavier.set_employee_performance(true)
     new_employee.set_employee_performance(true)
     old_employee.set_employee_performance(false)
-    a.department_raise(14000.00) {|e| e.satisfactory == true && e.salary < 60000.00}
+
+    # byebug
+
+    a.department_raise(14000) {|e| e.satisfactory == true && e.salary < 60000.00}
+
     assert_equal 70000.00, xavier.salary
-    assert_equal 64000.00, new_employee.salary
+    assert_equal 64000.00, new_employee.reload.salary
     assert_equal 40000.00, old_employee.salary
   end
 
