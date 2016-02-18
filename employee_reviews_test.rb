@@ -133,7 +133,20 @@ class EmployeeReviews < Minitest::Test
 
     assert_equal 3, a.number_of_employees
   end
+
   # Return the employee who is being paid the least in a department.
+  def test_can_return_employee_who_lowest_paid
+    a = Department.create(name: "Marketing")
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+
+    a.add_employee(xavier)
+    a.add_employee(new_employee)
+    a.add_employee(old_employee)
+
+    assert_equal old_employee, a.lowest_paid_employee
+  end
   # Return all employees in a department, ordered alphabetically by name.
   # Return all employees who are getting paid more than the average salary.
   # Return all employees with names which are palindromes.

@@ -25,4 +25,8 @@ class Department < ActiveRecord::Base
   def number_of_employees
     employees.count
   end
+
+  def lowest_paid_employee
+    employees.order(salary: :asc).first
+  end
 end
