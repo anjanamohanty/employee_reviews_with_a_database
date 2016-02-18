@@ -29,4 +29,13 @@ class Department < ActiveRecord::Base
   def lowest_paid_employee
     employees.order(salary: :asc).first
   end
+
+  def get_employees_in_abc_order
+    ordered = employees.order(name: :asc)
+    array = []
+    ordered.each do |e|
+      array << e
+    end
+    array
+  end
 end
