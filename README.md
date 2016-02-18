@@ -2,6 +2,48 @@
 
 This code allows you to create a department and add employees to it (with a name, email address, phone number and salary). You can then use it to give an employee a review, give them a raise and give raises across an entire department.
 
+## Feature updates 2016-02-17
+
+- Use ```Gemfile``` and ```employee_and_department_migration.rb``` to create database tables for your application or testing environments
+- NEW methods now available:
+  ```ruby
+  a = Department.create(name: "Marketing")
+  emp_one = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+  emp_two = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+  
+  a.employees << emp_one
+  a.employees << emp_two
+  
+  b = Department.create(name: "Sales")
+  emp_three = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
+  
+  b.employees << emp_three
+  
+  a.number_of_employees
+  # Returns the total number of employees in a department a.
+  
+  a.lowest_paid_employee
+  # Returns the employee who is being paid the least in department a.
+  
+  a.get_employees_in_abc_order
+  # Returns an arry of all employees in department a, ordered alphabetically by name.
+  
+  a.employees_paid_above_average
+  # Returns an array of all employees in department a who are getting paid more than the average salary.
+  
+  a.employees_with_palindrome_names
+  # Returns an array of all employees in department a with names which are palindromes.
+  
+  Department.department_with_most_employees
+  # Returns the department with the most employees.
+  
+  b.move_employees(a)
+  # Moves all employees from department b to department a.
+  
+  Employee.give_raises
+  # Gives a raise of 10% to ALL employees with good reviews.
+  ```
+
 ## Running the tests
 
 If you wish to run the tests for this project, also include ```employee_reviews_test.rb``` in your project directory, and:
