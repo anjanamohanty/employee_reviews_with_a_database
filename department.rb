@@ -21,4 +21,8 @@ class Department < ActiveRecord::Base
       e.raise_by_amount(amount)
     end
   end
+
+  def number_of_employees
+    employees.count
+  end
 end
