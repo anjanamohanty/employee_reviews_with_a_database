@@ -166,7 +166,7 @@ class EmployeeReviews < Minitest::Test
   def test_can_return_all_employees_paid_above_average
     a = Department.create(name: "Marketing")
     xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
-    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000.00)
 
     a.add_employee(xavier)
@@ -177,6 +177,21 @@ class EmployeeReviews < Minitest::Test
   end
 
   # Return all employees with names which are palindromes.
+  def test_can_return_employees_with_palindrome_names
+    a = Department.create(name: "Marketing")
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
+    palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
+
+    a.add_employee(xavier)
+    a.add_employee(new_employee)
+    a.add_employee(old_employee)
+    a.add_employee(palindrome)
+
+    assert_equal [palindrome], a.employees_with_palindrome_names
+  end
+
   # Return the department with the most employees.
   # Move everyone from one department to another department.
   # Give a raise of 10% to ALL employees with good reviews. This is different from the raise method which already exists, and also needs to operate over all employees of ALL departments.

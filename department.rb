@@ -1,5 +1,6 @@
 require './employee'
 require 'active_record'
+require 'byebug'
 
 class Department < ActiveRecord::Base
   has_many :employees
@@ -31,12 +32,7 @@ class Department < ActiveRecord::Base
   end
 
   def get_employees_in_abc_order
-    ordered = employees.order(name: :asc)
-    array = []
-    ordered.each do |e|
-      array << e
-    end
-    array
+    employees.order(name: :asc)
   end
 
   def employees_paid_above_average
@@ -47,4 +43,13 @@ class Department < ActiveRecord::Base
     end
     array
   end
+
+  def employees_with_palindrome_names
+    array = []
+    employees.each do |e|
+      array << e if (e.name.downcase == e.name.downcase.reverse)
+    end
+    array
+  end
+  
 end
