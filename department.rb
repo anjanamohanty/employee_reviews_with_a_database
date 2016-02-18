@@ -38,4 +38,13 @@ class Department < ActiveRecord::Base
     end
     array
   end
+
+  def employees_paid_above_average
+    average = (employees.reduce(0.0) {|sum, i| sum + i.salary}) / employees.count
+    array = []
+    employees.each do |e|
+      array << e if (e.salary > average)
+    end
+    array
+  end
 end
