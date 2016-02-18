@@ -52,4 +52,11 @@ class Department < ActiveRecord::Base
     relation = Department.joins(:employees).group("departments.id").count
     Department.find(relation.key(relation.values.max))
   end
+
+  def move_employees(new_dept)
+    employees.each do |e|
+      e.department_id = new_dept.id
+      e.save
+    end
+  end
 end

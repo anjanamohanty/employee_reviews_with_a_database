@@ -226,7 +226,30 @@ class EmployeeReviews < Minitest::Test
   end
 
   # Move everyone from one department to another department.
+  def test_can_move_employees_to_another_department
+    a = Department.create(name: "Marketing")
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
+    palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
 
+    a.add_employee(xavier)
+    a.add_employee(new_employee)
+    a.add_employee(old_employee)
+    a.add_employee(palindrome)
+
+    b = Department.create(name: "Marketing")
+    emp_one = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    emp_two = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
+
+    b.add_employee(emp_one)
+    b.add_employee(emp_two)
+
+    b.move_employees(a)
+
+    assert_equal 6, a.employees.count
+    assert_equal 0, b.employees.count
+  end
 
   # Give a raise of 10% to ALL employees with good reviews. This is different from the raise method which already exists, and also needs to operate over all employees of ALL departments.
 
