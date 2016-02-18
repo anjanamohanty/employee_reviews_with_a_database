@@ -44,4 +44,12 @@ class Employee < ActiveRecord::Base
     self.salary += raise_amount
     self.save
   end
+  
+  def self.give_raises
+    eligible = Employee.where(satisfactory: true)
+    eligible.each do |e|
+      e.salary = e.salary * (1.1)
+      e.save
+    end
+  end
 end

@@ -233,17 +233,17 @@ class EmployeeReviews < Minitest::Test
     old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
     palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
 
-    a.add_employee(xavier)
-    a.add_employee(new_employee)
-    a.add_employee(old_employee)
-    a.add_employee(palindrome)
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
+    a.employees << palindrome
 
     b = Department.create(name: "Marketing")
     emp_one = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
     emp_two = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
 
-    b.add_employee(emp_one)
-    b.add_employee(emp_two)
+    b.employees << emp_one
+    b.employees << emp_two
 
     b.move_employees(a)
 
@@ -251,7 +251,39 @@ class EmployeeReviews < Minitest::Test
     assert_equal 0, b.employees.count
   end
 
-  # Give a raise of 10% to ALL employees with good reviews. This is different from the raise method which already exists, and also needs to operate over all employees of ALL departments.
+  # Give a raise of 10% to ALL employees with good reviews. This is different from the raise method which already exists,
+  # and also needs to operate over all employees of ALL departments.
+  def test_can_give_raise_to_all_employees
+    a = Department.create(name: "Marketing")
+    xavier = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    new_employee = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
+    old_employee = Employee.create(name: "Yvonne", email: "Yvonne@urFired.com", phone: "919-123-4567", salary: 40000)
+    palindrome = Employee.create(name: "Racecar", email: "racecar@mail.com", phone: "123-456-FAST", salary: 250000)
+
+    a.employees << xavier
+    a.employees << new_employee
+    a.employees << old_employee
+    a.employees << palindrome
+
+    b = Department.create(name: "Marketing")
+    emp_one = Employee.create(name: "Xavier", email: "ProfX@marvel.com", phone: "911", salary: 70000.00)
+    emp_two = Employee.create(name: "Dan", email: "d@mail.com", phone: "914-555-5555", salary: 50000)
+
+    b.employees << emp_one
+    b.employees << emp_two
+
+    xavier.set_employee_performance(true)
+    new_employee.set_employee_performance(false)
+    old_employee.set_employee_performance(false)
+    emp_two.set_employee_performance(true)
+
+    Employee.give_raises
+
+    assert_equal 77000.00, xavier.reload.salary
+    assert_equal 50000.00, new_employee.reload.salary
+    assert_equal 40000.00, old_employee.reload.salary
+    assert_equal 55000.00, emp_two.reload.salary
+  end
 
   private def negative_review_one
     "Zeke is a very positive person and encourages those around him, but he has not done well technically this year. There are two areas in which Zeke has room for improvement. First, when communicating verbally (and sometimes in writing), he has a tendency to use more words than are required. This conversational style does put people at ease, which is valuable, but it often makes the meaning difficult to isolate, and can cause confusion. Second, when discussing new requirements with project managers, less of the information is retained by Zeke long-term than is expected. This has a few negative consequences: 1) time is spent developing features that are not useful and need to be re-run, 2) bugs are introduced in the code and not caught because the tests lack the same information, and 3) clients are told that certain features are complete when they are inadequate. This communication limitation could be the fault of project management, but given that other developers appear to retain more information, this is worth discussing further."
